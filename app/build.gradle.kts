@@ -23,10 +23,14 @@ android {
             keyPassword = "android"
         }
         create("release") {
-            storeFile = file(System.getenv("KEYSTORE_FILE") ?: "debug.keystore")
-            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "android"
-            keyAlias = System.getenv("KEY_ALIAS") ?: "debug-key"
-            keyPassword = System.getenv("KEY_PASSWORD") ?: "android"
+            fun env(name: String, default: String): String {
+                val v = System.getenv(name)
+                return if (v.isNullOrBlank()) default else v
+            }
+            storeFile = file(env("KEYSTORE_FILE", "debug.keystore"))
+            storePassword = env("KEYSTORE_PASSWORD", "android")
+            keyAlias = env("KEY_ALIAS", "debug-key")
+            keyPassword = env("KEY_PASSWORD", "android")
         }
     }
 
