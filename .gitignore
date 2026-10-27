@@ -52,8 +52,8 @@ captures/
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
-# Gradle wrapper
-gradle/wrapper/gradle-wrapper.jar
+# Gradle wrapper (CI 构建必须)
+!gradle/wrapper/gradle-wrapper.jar
 
 # Local tools (git, jdk, sdk copies)
 tools/git/
