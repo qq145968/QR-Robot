@@ -1,0 +1,12 @@
+# OpenSSH 客户端配置（可选，给 ssh.exe / scp.exe 用；密码认证仍需 plink -pw）
+# 用法: ssh -F deploy\ssh_config scanrobot-server
+# 注意: known_hosts 已预写死指纹，StrictHostKeyChecking=accept-new 首次自动接受并固定
+Host scanrobot-server
+    HostName 156.225.17.203
+    Port 22
+    User root
+    StrictHostKeyChecking accept-new
+    UserKnownHostsFile ./known_hosts
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    PreferredAuthentications publickey,password
