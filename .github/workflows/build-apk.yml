@@ -74,10 +74,6 @@ jobs:
       env:
         JAVA_OPTS: "-Xmx4096m -XX:MaxMetaspaceSize=512m"
         GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=512m -Dorg.gradle.caching=true -Dorg.gradle.parallel=true -Dorg.gradle.configuration-cache=true"
-        KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: ./gradlew assembleRelease --no-daemon --stacktrace
 
     - name: Upload APK
@@ -86,16 +82,3 @@ jobs:
         name: scan-robot-release-apk
         path: app/build/outputs/apk/release/*.apk
         retention-days: 30
-
-    - name: Deploy APK to Server (main branch only)
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        port: ${{ secrets.SSH_PORT }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASS }}
-        fingerprint: ${{ secrets.SSH_HOSTKEY }}
-        source: "app/build/outputs/apk/release/*.apk"
-        target: ${{ secrets.APK_DEPLOY_PATH }}
-        strip_components: 3
